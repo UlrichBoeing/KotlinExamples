@@ -12,7 +12,6 @@ fun main() {
 
     val (r, g, b) = RGB(255, 0 , 0)
     println("r = $r, g = $g, b = $b")
-
 }
 
 fun polarToCartesian(angle: Double, r: Double = 1.0): Pair<Double, Double> {
