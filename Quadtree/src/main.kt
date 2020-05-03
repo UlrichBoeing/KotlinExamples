@@ -6,6 +6,7 @@ import de.ulrich_boeing.quadtree.Quadtree
 import processing.core.PApplet
 import de.ulrich_boeing.utility.MouseTrace
 import de.ulrich_boeing.utility.Timespan
+import kotlin.random.Random
 
 class MyApplet : PApplet() {
     companion object {
@@ -18,7 +19,8 @@ class MyApplet : PApplet() {
 
     val appWindow by lazy { Rect(width, height) }
 
-    val mouseTrace = MouseTrace(this)
+    val mouseTrace = MouseTrace(this).setSpread(20, 100f)
+
     var buildUp = Timespan("buildUp")
     var query = Timespan("query")
 
@@ -35,8 +37,8 @@ class MyApplet : PApplet() {
 
 
         // Building list of particles
-        val list = mouseTrace.update()
-//        val list = appWindow.listOfRandomVec(numParticles)
+//        val list = mouseTrace.update()
+        val list = appWindow.listOfRandomVec(numParticles)
 
         // Building tree
         buildUp.start()
@@ -48,26 +50,31 @@ class MyApplet : PApplet() {
         buildUp.end().println()
 
         query.start()
-//        for (i in 1..numQueries) {
-//            val x = Random.nextFloat() * width
-//            val y = Random.nextFloat() * height
-//            val found = quadtree.query(Rect(x, y, 50f, 50f))
-////            found.drawAsCircles(g, 2f)
-////            println(found.size)
-//        }
+        for (i in 1..numQueries) {
+            val x = Random.nextFloat() * width
+            val y = Random.nextFloat() * height
+            val found = quadtree.query(Rect(x, y, 50f, 50f))
+//            found.drawAsCircles(g, 2f)
+//            println(found.size)
+        }
 
-        val found = quadtree.query(Rect(mouseX, mouseY, 50, 50))
+        //        val found = quadtree.query(Rect(mouseX, mouseY, 50, 50))
+//        val inside = quadtree.queryRects(Rect(mouseX, mouseY, 50, 50))
 
         query.end().println()
 
 
-        fillOnly(COLOR_RED.setAlpha(60))
-        list.drawAsCircles(g, 6f)
-        strokeOnly(COLOR_BLUE, 1f)
-        quadtree.draw(g)
+//        fillOnly(COLOR_RED.setAlpha(60))
+//        list.drawAsCircles(g, 6f)
+//        strokeOnly(COLOR_BLUE, 1f)
+//        quadtree.draw(g)
+//
+//        fillOnly(COLOR_AQUA.setAlpha(250))
+//        for (rect in inside)
+//            rect.draw(g)
 
-        fillOnly(COLOR_RED)
-        found.drawAsCircles(g, 6f)
+//        fillOnly(COLOR_RED)
+//        found.drawAsCircles(g, 6f)
     }
 }
 
