@@ -1,4 +1,5 @@
 import de.ulrich_boeing.basics.*
+import de.ulrich_boeing.framework.drawAsCircles
 import de.ulrich_boeing.processing.fillOnly
 import de.ulrich_boeing.quadtree.Quadtree
 import de.ulrich_boeing.quadtree.createIntArray
@@ -24,13 +25,13 @@ class MyApplet : PApplet() {
     var timer2 = Timespan("sortNodes", Timespan.Unit.MILLI)
 
     val numParticles = 50000
-    val numQueries = 50000
+    val numQueries = 1
 
     override fun setup() {
-        background(255)
     }
 
     override fun draw() {
+        background(255)
         val list = appWindow.listOfRandomVec(numParticles)
         val searchCircle = Circle(mouseX, mouseY, 25f)
         val searchRect = Rect(mouseX, mouseY, 50, 50)
@@ -47,16 +48,19 @@ class MyApplet : PApplet() {
 //        timer1.start()
 //        val found1 = quadtree.query(searchRect)
 //        timer1.end().println()
+        fillOnly(COLOR_RED.setAlpha(40))
+        list.drawAsCircles(g, 1f)
         timer2.start()
         for (i in 1..numQueries) {
             val x = Random.nextFloat() * width
             val y = Random.nextFloat() * height
             val rect = Rect(x, y, 100f, 100f)
-            val found = quadtree.queryRect(rect)
-//            val found2 = quadtree.getNumberOfVecs(rect)
-//            println("$found2 - ${found - found2}")
+            val found = quadtree.pointsInside(searchCircle)
+            fillOnly(COLOR_BLUE)
+            found.drawAsCircles(g, 3f)
         }
         timer2.end().println()
+
 //        println("for factor $factor " + capacity.contentToString())
 //        val x = map(factor.toFloat(), 1f, 4.5f, 0f, 800f)
 //        val y = map(timer2.lastTime.toFloat(), 0f, 20000f, 0f, 600f)
