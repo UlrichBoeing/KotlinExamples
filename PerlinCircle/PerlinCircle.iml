@@ -18,5 +18,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="FitnessTools" />
+    <orderEntry type="library" name="controlP5" level="application" />
   </component>
 </module>
